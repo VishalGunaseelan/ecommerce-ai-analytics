@@ -84,7 +84,7 @@ with st.expander("💡 Example questions"):
 question = st.text_input("Ask a question about your data:", placeholder="e.g. Show me top 5 customers by revenue")
 
 if st.button("Run", type="primary") and question:
-    with st.spinner("Generating SQL..."):
+    with st.spinner("Querying Databricks... (may take 15s on first run while warehouse warms up)"):
         try:
             sql_query = generate_sql(question)
             st.subheader("Generated SQL")
