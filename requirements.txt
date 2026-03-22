@@ -1,0 +1,6 @@
+streamlit
+databricks-sql-connector
+langchain-groq
+langchain-core
+python-dotenv
+pandas
