@@ -16,7 +16,7 @@ GROQ_API_KEY     = os.getenv("GROQ_API_KEY")
 
 
 
-# ── SCHEMA CONTEXT FOR GEMINI ───────────────────────
+# ── SCHEMA CONTEXT ───────────────────────
 SCHEMA_CONTEXT = """
 You are a SQL expert. Generate only a valid SQL query — no explanation, no markdown, no backticks.
 
@@ -55,7 +55,7 @@ def run_query(sql_query):
             cols = [d[0] for d in cursor.description]
             return pd.DataFrame(result, columns=cols)
 
-# ── GENERATE SQL WITH GEMINI ─────────────────────────
+# ── GENERATE SQL ─────────────────────────
 def generate_sql(question):
     llm = ChatGroq(
         model="llama-3.1-8b-instant",
