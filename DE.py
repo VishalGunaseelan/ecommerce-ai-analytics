@@ -1,3 +1,4 @@
+
 import streamlit as st
 from databricks import sql
 from langchain_groq import ChatGroq
@@ -5,14 +6,28 @@ from langchain_core.messages import HumanMessage
 import pandas as pd
 from dotenv import load_dotenv
 import os
+from pathlib import Path
+
 
 # ── CONFIG ──────────────────────────────────────────
-load_dotenv()
 
-DATABRICKS_HOST  = os.getenv("DATABRICKS_HOST")
+BASE_DIR = Path(__file__).resolve().parent
+ENV_FILE = BASE_DIR / ".env"
+
+load_dotenv(ENV_FILE)
+
+DATABRICKS_HOST = os.getenv("DATABRICKS_HOST")
 DATABRICKS_TOKEN = os.getenv("DATABRICKS_TOKEN")
-HTTP_PATH        = os.getenv("HTTP_PATH")
-GROQ_API_KEY     = os.getenv("GROQ_API_KEY")
+HTTP_PATH = os.getenv("HTTP_PATH")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+
+# ── DEBUG ────────────────────────────────────────────
+
+print("Looking for .env at:", ENV_FILE)
+print(".env exists:", ENV_FILE.exists())
+print("GROQ_API_KEY loaded:", GROQ_API_KEY is not None)
+print("GROQ_API_KEY length:", len(GROQ_API_KEY) if GROQ_API_KEY else 0)
 
 
 
@@ -58,7 +73,7 @@ def run_query(sql_query):
 # ── GENERATE SQL ─────────────────────────
 def generate_sql(question):
     llm = ChatGroq(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         api_key=GROQ_API_KEY
     )
     response = llm.invoke([HumanMessage(content=f"{SCHEMA_CONTEXT}\n\nQuestion: {question}")])
